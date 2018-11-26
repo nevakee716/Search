@@ -4,3 +4,4 @@ layoutsearch_options_zone_options = Search options
 layoutsearch_options_search_exact_match = Exact match
 layoutsearch_options_search_all_words = Search all terms
 layoutsearch_options_search_scope = Scope
+layoutsearch_setup_complementary_nodes = Please check the "Complementary nodes" options or contact your administrator
