@@ -1,6 +1,6 @@
 {
   "name": "cwLayoutSearch",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Seach your data, using multiple options",
   "main": "src/layoutSearch.js",
   "scripts": {
