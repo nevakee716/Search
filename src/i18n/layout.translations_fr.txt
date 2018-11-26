@@ -1,0 +1,6 @@
+searchengine_searchbutton = Rechercher !
+searchengine_optionsbutton = Options
+layoutsearch_options_zone_options = Options de recherche
+layoutsearch_options_search_exact_match = Recherche exacte
+layoutsearch_options_search_all_words = Rechercher tous les mots
+layoutsearch_options_search_scope = Périmètre de recherche
