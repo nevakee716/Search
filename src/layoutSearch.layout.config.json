@@ -1,0 +1,32 @@
+{
+	"Name" : "layoutSearch", 
+	"DisplayName" : "Search", 
+	"Description" : "Enable a search in a given scope",
+	"JavaScriptClassName" : "cwLayoutSearch",
+	"Options":[
+		{
+			"Id": "complementary-nodes",
+			"DisplayName": "Complementary Nodes",
+			"Description": "Select Nodes you want to add that are not under search layout. Ex: \"[\"Node1\", \"Node2\"]\"",
+			"Type": 0
+		},
+		{
+			"Id": "search-exact-match",
+			"DisplayName": "Exact match",
+			"Description":"Search for exact match",
+			"Type": 1
+		},
+		{
+			"Id": "search-all-words",
+			"DisplayName": "All words",
+			"Description": "Check if you want to search for all terms or at least one",
+			"Type": 1
+		},
+		{
+			"Id": "search-scope",
+			"DisplayName": "Scope",
+			"Description": "Set the scope as a JSON object",
+			"Type": 0
+		}
+	]
+}

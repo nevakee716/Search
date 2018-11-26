@@ -1,0 +1,86 @@
+<div ng-controller="cwLayoutSearch" class="cwLayoutSearch cwSearchEngine" ng-class="'cwSearchEngine-' + containerId">
+  <div class="left-container">
+    <div class="search-zone-top-bar">
+      <div class="search-zone-search">
+        <input type="search" name="find" class="layout-search-suggest" placeholder="{{$root.i18n('layoutsearch_search_zone_placeholder')}}" ng-model="searchValue" ng-keypress="keypressSearch($event)" ng-disabled="isDisabled">
+        <button ng-click="clickSearch()" ng-disabled="isDisabled" class="search-button">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
+      <div class="options-toggle-container">
+        <button class="options-toggle" title="{{$root.i18n('searchengine_searchbutton')}}" ng-click="toggleOptions()">
+          <i class="fa fa-bars"></i>
+        </button>
+      </div>
+    </div>
+    <!-- results -->
+    <div class="search-zone-result">
+      <ul class="search-zone-result">
+        <li class="search-result-node" ng-repeat="x in data" ng-if="x.hasResult" ng-class="'search-result-node-' + x.nodeId">
+          <div ng-click="toggleResultNode(x)" ng-attr-nodeid="x.nodeId" class="cw-accordion-header search-result-node-label" ng-class="'search-result-node-label-' + x.nodeId">{{$root.cwApi.mapToTranslation(mmDataById[x.nodeId].displayName)}}</div>
+          <div ng-attr-id="'search-result-node-list-' + x.nodeId" ng-if="x.isDisplayed" class="cw-accordion-content">
+            <ul class="list-search-result">
+              <li ng-repeat="item in x.items | orderBy:'doc._displayName'"><span ng-bind-html="item.doc._displayName"></span></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div ng-class="options.isCollapsed ? '': 'popout-open'" class="right-container">
+    <div ng-class="options.isCollapsed ? 'search-zone-options-collapsed': 'search-zone-options-expanded'" class="popout search-zone-options">
+      <div class="popout-top popout-search-options-top">
+        <ul class="popout-top-container popout-search-options-top-container">
+          <li class="popout-title popout-search-options-title">
+            <div class="popout-title-div">{{$root.i18n('layoutsearch_options_zone_options')}}</div>
+          </li>
+        </ul>
+      </div>
+      <!-- options -->
+      <div class="popout-content popout-search-options-content">
+        <div class="options-container label-container">
+          <span class="label-container">{{$root.i18n('layoutsearch_options_search_exact_match')}}</span>
+          <label class="switch">
+            <input type="checkbox" ng-model="options.search.exactMatch">
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <div class="options-container">
+          <span class="label-container">{{$root.i18n('layoutsearch_options_search_all_words')}}</span>
+          <label class="switch">
+            <input type="checkbox" ng-model="options.search.allWords">
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <div class="options-container">
+          <span class="label-container">{{$root.i18n('layoutsearch_options_search_scope')}}</span>
+          <table class="options-search-scope">
+            <tr ng-repeat-start="x in scope">
+              <th rowspan="{{x.properties.length}}">
+                {{$root.cwApi.mapToTranslation(x.displayName)}}
+              </th>
+              <td>
+                <div class="search-scope-container">{{x.properties[0].displayName}}
+                  <label class="switch">
+                    <input type="checkbox" ng-model="x.properties[0].isSelected">
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </td>
+            </tr>
+            <tr ng-repeat-end ng-repeat="y in x.properties.slice(1)">
+              <td>
+                <div class="search-scope-container">{{y.displayName}}
+                  <label class="switch">
+                    <input type="checkbox" ng-model="y.isSelected">
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </td>
+            </tr>            
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
