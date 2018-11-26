@@ -1,0 +1,21 @@
+{
+  "name": "cwLayoutSearch",
+  "version": "0.0.0",
+  "description": "Seach your data, using multiple options",
+  "main": "src/layoutSearch.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JGrndn/Search.git"
+  },
+  "author": "Jerome Grondin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JGrndn/Search/issues"
+  },
+  "homepage": "https://github.com/JGrndn/Search/wiki",
+  "wiki": "https://github.com/JGrndn/Search/wiki",
+  "evolve-version": "4.0 - 4.2"
+}
