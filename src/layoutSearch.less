@@ -7,41 +7,6 @@ div.cwLayoutSearch{
       display: flex;
       background-color: #F5F5F5;
       height: 50px;
-      div.search-zone-search{
-        box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
-        border-radius: 2px;
-        background-color: white;
-        height: 34px;
-        margin-top: auto;
-        margin-bottom: auto;
-        margin-left: 20px;
-        margin-right: 5px;
-        input.layout-search-suggest{
-          height: 100%;
-          border:none;
-          margin-left: 15px;
-          width:632px;
-          outline:none;
-          font-size: 1.3em;
-          &:disabled{
-            background-color: initial;
-            cursor: not-allowed;
-          }
-        }
-        button.search-button{
-          background: transparent;
-          border:none;
-          color: @cwPageActionButtonBackgroundColor;
-          outline: none;
-          &:hover{
-            color: @cwTopBarProfileLinkHoverColor;
-          }
-          &:disabled{
-            background-color: initial;
-            cursor: not-allowed;
-          }
-        }
-      }
       .options-toggle-container{
         margin-top: auto;
         margin-bottom: auto;
@@ -162,4 +127,83 @@ div.cwLayoutSearch{
 }
 
 
+@media screen and (min-width: 1024px){
+  div.search-zone-search{
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+    border-radius: 2px;
+    background-color: white;
+    height: 34px;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 20px;
+    margin-right: 5px;
+    width: 680px;
+    input.layout-search-suggest{
+      height: 100%;
+      border:none;
+      margin-left: 15px;
+      width:632px;
+      outline:none;
+      font-size: 1.3em;
+      &:disabled{
+        background-color: initial;
+        cursor: not-allowed;
+      }
+    }
+    button.search-button{
+      background: transparent;
+      border:none;
+      color: @cwPageActionButtonBackgroundColor;
+      outline: none;
+      &:hover{
+        color: @cwTopBarProfileLinkHoverColor;
+      }
+      &:disabled{
+        background-color: initial;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
 
+@media screen and (max-width: 1023px) and (min-width: 240px){
+  div.search-zone-search{
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+    border-radius: 2px;
+    background-color: white;
+    height: 34px;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 20px;
+    margin-right: 5px;
+    input.layout-search-suggest{
+      height: 100%;
+      border:none;
+      margin-left: 15px;
+      width:min-content;
+      outline:none;
+      font-size: 1.3em;
+      &:disabled{
+        background-color: initial;
+        cursor: not-allowed;
+      }
+    }
+    button.search-button{
+      background: transparent;
+      border:none;
+      color: @cwPageActionButtonBackgroundColor;
+      outline: none;
+      &:hover{
+        color: @cwTopBarProfileLinkHoverColor;
+      }
+      &:disabled{
+        background-color: initial;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .popout-open .popout.search-zone-options {
+    padding-top:initial;
+  }
+}

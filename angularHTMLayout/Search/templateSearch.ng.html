@@ -2,13 +2,13 @@
   <div class="left-container">
     <div class="search-zone-top-bar">
       <div class="search-zone-search">
-        <input type="search" name="find" class="layout-search-suggest" placeholder="{{$root.i18n('layoutsearch_search_zone_placeholder')}}" ng-model="searchValue" ng-keypress="keypressSearch($event)" ng-disabled="isDisabled">
-        <button ng-click="clickSearch()" ng-disabled="isDisabled" class="search-button">
+        <input type="search" name="find" class="layout-search-suggest" ng-model="searchValue" ng-keypress="keypressSearch($event)" ng-disabled="isDisabled">
+        <button ng-click="clickSearch()" ng-disabled="isDisabled" class="search-button" title="{{$root.i18n('searchengine_searchbutton')}}">
           <i class="fa fa-search"></i>
         </button>
       </div>
       <div class="options-toggle-container">
-        <button class="options-toggle" title="{{$root.i18n('searchengine_searchbutton')}}" ng-click="toggleOptions()">
+        <button class="options-toggle" title="{{$root.i18n('searchengine_optionsbutton')}}" ng-click="toggleOptions()">
           <i class="fa fa-bars"></i>
         </button>
       </div>
@@ -33,6 +33,11 @@
         <ul class="popout-top-container popout-search-options-top-container">
           <li class="popout-title popout-search-options-title">
             <div class="popout-title-div">{{$root.i18n('layoutsearch_options_zone_options')}}</div>
+          </li>
+          <li class="popout-title-options">
+            <div href="#" class="btn btn-close-options no-text" ng-click="toggleOptions()">
+              <i class="fa fa-times"></i>
+            </div>
           </li>
         </ul>
       </div>
