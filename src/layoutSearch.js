@@ -206,7 +206,9 @@
                                 for(i=0; i<$scope.scope.length; i+=1){
                                     node = $scope.scope[i];
                                     if (scopeJson.hasOwnProperty(node.nodeId)){
-                                        propertiesScriptName = scopeJson[node.nodeId].map(p => p.toLowerCase());
+                                        propertiesScriptName = scopeJson[node.nodeId].map(function(p){
+                                            return p.toLowerCase();
+                                        });
                                         for(j=0; j<node.properties.length; j+=1){
                                             if (propertiesScriptName.indexOf(node.properties[j].scriptName.toLowerCase()) === -1){
                                                 node.properties[j].isSelected = false;
