@@ -5,3 +5,4 @@ layoutsearch_options_search_exact_match = Recherche exacte
 layoutsearch_options_search_all_words = Rechercher tous les mots
 layoutsearch_options_search_scope = Périmètre de recherche
 layoutsearch_setup_complementary_nodes = L''option "Noeuds complémentaires" est incorrecte ou contactez votre administrateur
+layoutsearch_options_zone_save = Les options de recherche ont bien été sauvegardées
