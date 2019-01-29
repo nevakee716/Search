@@ -2,8 +2,7 @@
   <div class="left-container">
     <div class="search-zone-top-bar">
       <div class="search-zone-search">
-        <input type="search" name="find" class="layout-search-suggest" ng-model="searchValue" ng-keypress="keypressSearch($event)"
-          ng-disabled="isDisabled">
+        <input type="search" name="find" class="layout-search-suggest" ng-model="searchValue" ng-keypress="keypressSearch($event)" ng-disabled="isDisabled">
         <button ng-click="clickSearch()" ng-disabled="isDisabled" class="search-button" title="{{$root.i18n('searchengine_searchbutton')}}">
           <i class="fa fa-search"></i>
         </button>
@@ -18,11 +17,10 @@
     <div class="search-zone-result">
       <ul class="search-zone-result">
         <li class="search-result-node" ng-repeat="x in data" ng-if="x.hasResult" ng-class="'search-result-node-' + x.nodeId">
-          <div ng-click="toggleResultNode(x)" ng-attr-nodeid="x.nodeId" class="cw-accordion-header search-result-node-label"
-            ng-class="'search-result-node-label-' + x.nodeId">{{$root.cwApi.mapToTranslation(mmDataById[x.nodeId].displayName)}}</div>
+          <div ng-click="toggleResultNode(x)" ng-attr-nodeid="x.nodeId" class="cw-accordion-header search-result-node-label" ng-class="'search-result-node-label-' + x.nodeId">{{$root.cwApi.mapToTranslation(mmDataById[x.nodeId].displayName)}}</div>
           <div ng-attr-id="'search-result-node-list-' + x.nodeId" ng-if="x.isDisplayed" class="cw-accordion-content">
             <ul class="list-search-result">
-              <li ng-repeat="item in x.items | orderBy:'doc._displayName'"><span ng-bind-html="item.doc._displayName"></span></li>
+              <li ng-repeat="item in x.items | orderBy:'doc._displayName'"><span ng-bind-html="displayItemString(item)"></span></li>
             </ul>
           </div>
         </li>
@@ -87,7 +85,7 @@
                   </label>
                 </div>
               </td>
-            </tr>
+            </tr>            
           </table>
         </div>
       </div>

@@ -128,14 +128,14 @@
                     var loader = cwApi.CwAngularLoader, templatePath, $container = $('#' + that.getContainerId());
                     loader.setup();
                     templatePath = that.getTemplatePath('Search', 'templateSearch');
-                    loader.loadControllerWithTemplate('cwLayoutSearch', $container, templatePath, function ($scope, $http) {
+                    loader.loadControllerWithTemplate('cwLayoutSearch', $container, templatePath, function ($scope, $sce, $http) {
                         $scope.containerId = that.nodeID;
                         $scope.scope = that.mmData;
                         $scope.mmDataById = that.mmDataById;
                         $scope.data = [];
                         $scope.searchValue = '';
                         $scope.options = {
-                            isCollapsed: true,
+                            isCollapsed: !hasBuildChanged(),
                             search:{
                                 allWords: false,
                                 exactMatch: false
@@ -153,6 +153,14 @@
                         }
                         function getResult() {
                             return searchEngine.searchItems($scope.searchValue, $scope.scope, $scope.options.search);
+                        }
+                        function hasBuildChanged(){
+                            var json = JSON.parse(localStorage.getItem('cwLayoutSearch_' + that.nodeID));
+                            if (!cwApi.isUndefinedOrNull(json)){
+                                var hasChanged = (json.buildVersion !== cwApi.cwConfigs.DeployNumber);
+                                return hasChanged;
+                            }
+                            return true;
                         }
                         function doSearch(){
                             var i=0, jsonFile = cwApi.getIndexViewDataUrl(that.viewSchema.ViewName);
@@ -182,11 +190,12 @@
                             rNode.isDisplayed = !rNode.isDisplayed;
                         };
                         $scope.saveOptions = function(){
-                            localStorage.setItem('cwLayoutSearch_' + that.nodeID, JSON.stringify({ opt: $scope.options.search, scope: $scope.scope }));
+                            localStorage.setItem('cwLayoutSearch_' + that.nodeID, JSON.stringify({ buildVersion: cwApi.cwConfigs.DeployNumber, opt: $scope.options.search, scope: $scope.scope }));
+                            cwApi.notificationManager.addNotification($.i18n.prop('layoutsearch_options_zone_save'));
                         };
                         $scope.setOptionsFromLocalStorage = function () {
                             var json = JSON.parse(localStorage.getItem('cwLayoutSearch_' + that.nodeID));
-                            if (!cwApi.isUndefinedOrNull(json)) {
+                            if (!cwApi.isUndefinedOrNull(json) && cwApi.cwConfigs.DeployNumber === json.buildVersion) {
                                 $scope.options.search.allWords = json.opt.allWords;
                                 $scope.options.search.exactMatch = json.opt.exactMatch;
                                 $scope.scope = json.scope;
@@ -225,13 +234,15 @@
                         $scope.keypressSearch = function (e) {
                             var key = e.which || e.keyCode || 0;
                             if (key === 13) { // press enter
-                                $scope.saveOptions(that.nodeId, $scope.options.search, $scope.scope);
                                 doSearch();
                             }
                         };
                         $scope.clickSearch = function () {
-                            $scope.saveOptions(that.nodeId, $scope.options.search, $scope.scope);
                             doSearch();
+                        };
+
+                        $scope.displayItemString = function(item){
+                            return $sce.trustAsHtml(item.doc._displayName);
                         };
 
                         // set option & scope from configuration
@@ -244,6 +255,7 @@
                             $scope.searchValue = qs.searchq;
                             doSearch();
                         }
+
                     });
                 });        
             } else {
