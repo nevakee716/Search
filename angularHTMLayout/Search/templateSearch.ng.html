@@ -27,8 +27,8 @@
       </ul>
     </div>
   </div>
-  <div ng-class="options.isCollapsed ? '': 'popout-open'" class="right-container">
-    <div ng-class="options.isCollapsed ? 'search-zone-options-collapsed': 'search-zone-options-expanded'" class="popout search-zone-options">
+  <div ng-class="options.isExpanded ? 'popout-search-open':'popout-search-close'" class="right-container">
+    <div ng-class="options.isExpanded ? 'search-zone-options-expanded' : 'search-zone-options-collapsed'" class="popout-search search-zone-options">
       <div class="popout-top popout-search-options-top">
         <ul class="popout-top-container popout-search-options-top-container">
           <li class="popout-title popout-search-options-title">
