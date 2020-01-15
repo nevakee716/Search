@@ -1,30 +1,32 @@
-div.cwLayoutSearch{
-  display:flex;
+@import "../../_mixins";
+@import "../../_variables";
+div.cwLayoutSearch {
+  display: flex;
 
-  div.left-container{
-    width:100%;
-    div.search-zone-top-bar{
+  div.left-container {
+    width: 100%;
+    div.search-zone-top-bar {
       display: flex;
-      background-color: #F5F5F5;
+      background-color: #f5f5f5;
       height: 50px;
-      .options-toggle-container{
+      .options-toggle-container {
         margin-top: auto;
         margin-bottom: auto;
-        button.options-toggle{
+        button.options-toggle {
           color: @cwPageActionButtonBackgroundColor;
           background: transparent;
           border: none;
           outline: none;
-          &:hover{
+          &:hover {
             color: @cwTopBarProfileLinkHoverColor;
           }
         }
       }
     }
-    div.search-zone-result{
-      ul.search-zone-result{
+    div.search-zone-result {
+      ul.search-zone-result {
         padding-left: 20px;
-        li.search-result-node{
+        li.search-result-node {
           list-style: none;
           margin-bottom: 10px;
         }
@@ -32,47 +34,42 @@ div.cwLayoutSearch{
     }
   }
 
-  div.popout-search-close{
+  div.popout-search-close {
     width: 0;
     overflow: hidden;
     right: 0;
   }
 
-  div.popout-search-open.right-container{
+  div.popout-search-open.right-container {
     min-height: 800px;
-    right:0px;    
-    .popout-search-options-content{
-      padding:15px;
-      .options-container{
+    right: 0px;
+    .popout-search-options-content {
+      padding: 15px;
+      .options-container {
         margin-bottom: 10px;
-        font-size:1.1em;
-        table.options-search-scope{
+        font-size: 1.1em;
+        table.options-search-scope {
           max-width: 100%;
           word-break: break-word;
           border-collapse: collapse;
-          tr{
+          tr {
             border: solid 1px black;
-            th{
+            th {
               min-width: 125px;
               border-right: solid 1px black;
             }
-            td{
+            td {
               min-width: 200px;
             }
           }
         }
       }
-      .label-container{
+      .label-container {
         font-weight: bold;
       }
     }
   }
 }
-
-
-
-
-
 
 .switch {
   position: relative;
@@ -80,7 +77,7 @@ div.cwLayoutSearch{
   width: 44px;
   height: 22px;
 
-  input{
+  input {
     opacity: 0;
     width: 0;
     height: 0;
@@ -94,8 +91,8 @@ div.cwLayoutSearch{
     right: 0;
     bottom: 0;
     background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
   }
 
   .slider:before {
@@ -106,12 +103,12 @@ div.cwLayoutSearch{
     left: 4px;
     top: 3px;
     background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
   }
 
   input:checked + .slider {
-    background-color: #2196F3;
+    background-color: #2196f3;
   }
 
   input:focus + .slider {
@@ -132,10 +129,9 @@ div.cwLayoutSearch{
   }
 }
 
-
-@media screen and (min-width: 1024px){
-  div.search-zone-search{
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+@media screen and (min-width: 1024px) {
+  div.search-zone-search {
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
     border-radius: 2px;
     background-color: white;
     height: 34px;
@@ -144,27 +140,27 @@ div.cwLayoutSearch{
     margin-left: 20px;
     margin-right: 5px;
     width: 680px;
-    input.layout-search-suggest{
+    input.layout-search-suggest {
       height: 100%;
-      border:none;
+      border: none;
       margin-left: 15px;
-      width:632px;
-      outline:none;
+      width: 632px;
+      outline: none;
       font-size: 1.3em;
-      &:disabled{
+      &:disabled {
         background-color: initial;
         cursor: not-allowed;
       }
     }
-    button.search-button{
+    button.search-button {
       background: transparent;
-      border:none;
+      border: none;
       color: @cwPageActionButtonBackgroundColor;
       outline: none;
-      &:hover{
+      &:hover {
         color: @cwTopBarProfileLinkHoverColor;
       }
-      &:disabled{
+      &:disabled {
         background-color: initial;
         cursor: not-allowed;
       }
@@ -172,9 +168,9 @@ div.cwLayoutSearch{
   }
 }
 
-@media screen and (max-width: 1023px) and (min-width: 240px){
-  div.search-zone-search{
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+@media screen and (max-width: 1023px) and (min-width: 240px) {
+  div.search-zone-search {
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
     border-radius: 2px;
     background-color: white;
     height: 34px;
@@ -182,27 +178,27 @@ div.cwLayoutSearch{
     margin-bottom: auto;
     margin-left: 20px;
     margin-right: 5px;
-    input.layout-search-suggest{
+    input.layout-search-suggest {
       height: 100%;
-      border:none;
+      border: none;
       margin-left: 15px;
-      width:min-content;
-      outline:none;
+      width: min-content;
+      outline: none;
       font-size: 1.3em;
-      &:disabled{
+      &:disabled {
         background-color: initial;
         cursor: not-allowed;
       }
     }
-    button.search-button{
+    button.search-button {
       background: transparent;
-      border:none;
+      border: none;
       color: @cwPageActionButtonBackgroundColor;
       outline: none;
-      &:hover{
+      &:hover {
         color: @cwTopBarProfileLinkHoverColor;
       }
-      &:disabled{
+      &:disabled {
         background-color: initial;
         cursor: not-allowed;
       }
@@ -210,6 +206,6 @@ div.cwLayoutSearch{
   }
 
   .popout-open .popout.search-zone-options {
-    padding-top:initial;
+    padding-top: initial;
   }
 }
