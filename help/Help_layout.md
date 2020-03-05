@@ -16,7 +16,8 @@ Also, select all the properties you want to look in, for each node.
 
 The options are the following :  
 ### Complementary Nodes  
-Used to add some data into the scope of search  
+Used to add some data into the scope of search.  
+Ex : `["nodeId1", "nodeId2"]`
 ### Exact match  
 Indicates whether you want to search for the exact term or not. For exemple, if you look for "data" you can choose if you want a match when an object contains the word "database" or not.  
 _This option can be modified at the user level._
