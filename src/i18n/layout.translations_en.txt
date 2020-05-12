@@ -1,5 +1,7 @@
 searchengine_searchbutton = Search !
 searchengine_optionsbutton = Options
+searchengine_searching = Searching ...
+searchengine_noresult = No Result
 layoutsearch_options_zone_options = Search options
 layoutsearch_options_search_exact_match = Exact match
 layoutsearch_options_search_all_words = Search all terms

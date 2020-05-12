@@ -2,8 +2,16 @@
   <div class="left-container">
     <div class="search-zone-top-bar">
       <div class="search-zone-search">
-        <input type="search" name="find" class="layout-search-suggest" ng-model="searchValue" ng-keypress="keypressSearch($event)" ng-disabled="isDisabled">
-        <button ng-click="clickSearch()" ng-disabled="isDisabled" class="search-button" title="{{$root.i18n('searchengine_searchbutton')}}">
+        <input
+          type="search"
+          name="find"
+          class="layout-search-suggest"
+          ng-model="searchValue"
+          ng-model-options="{ debounce: 666 }"
+          ng-change="keypressSearch($event)"
+          ng-readonly="isDisabled"
+        />
+        <button ng-click="clickSearch()" class="search-button" title="{{$root.i18n('searchengine_searchbutton')}}">
           <i class="fa fa-search"></i>
         </button>
       </div>
@@ -16,8 +24,19 @@
     <!-- results -->
     <div class="search-zone-result">
       <ul class="search-zone-result">
+        <span class="search-result-node label-container" ng-if="searchValue.length > 1 && isDisabled">{{$root.i18n('searchengine_searching')}}</span>
+        <span class="search-result-node label-container" ng-if="!isDisabled && searchValue.length > 1 && !dataHasResult() "
+          >{{$root.i18n('searchengine_noresult')}}</span
+        >
         <li class="search-result-node" ng-repeat="x in data" ng-if="x.hasResult" ng-class="'search-result-node-' + x.nodeId">
-          <div ng-click="toggleResultNode(x)" ng-attr-nodeid="x.nodeId" class="cw-accordion-header search-result-node-label" ng-class="'search-result-node-label-' + x.nodeId">{{$root.cwApi.mapToTranslation(mmDataById[x.nodeId].displayName)}}</div>
+          <div
+            ng-click="toggleResultNode(x)"
+            ng-attr-nodeid="x.nodeId"
+            class="cw-accordion-header search-result-node-label"
+            ng-class="'search-result-node-label-' + x.nodeId"
+          >
+            {{$root.cwApi.mapToTranslation(mmDataById[x.nodeId].displayName)}}
+          </div>
           <div ng-attr-id="'search-result-node-list-' + x.nodeId" ng-if="x.isDisplayed" class="cw-accordion-content">
             <ul class="list-search-result">
               <li ng-repeat="item in x.items | orderBy:'doc._displayName'"><span ng-bind-html="displayItemString(item)"></span></li>
@@ -49,14 +68,14 @@
         <div class="options-container label-container">
           <span class="label-container">{{$root.i18n('layoutsearch_options_search_exact_match')}}</span>
           <label class="switch">
-            <input type="checkbox" ng-model="options.search.exactMatch">
+            <input type="checkbox" ng-model="options.search.exactMatch" />
             <span class="slider round"></span>
           </label>
         </div>
         <div class="options-container">
           <span class="label-container">{{$root.i18n('layoutsearch_options_search_all_words')}}</span>
           <label class="switch">
-            <input type="checkbox" ng-model="options.search.allWords">
+            <input type="checkbox" ng-model="options.search.allWords" />
             <span class="slider round"></span>
           </label>
         </div>
@@ -68,9 +87,10 @@
                 {{$root.cwApi.mapToTranslation(x.displayName)}}
               </th>
               <td>
-                <div class="search-scope-container">{{x.properties[0].displayName}}
+                <div class="search-scope-container">
+                  {{x.properties[0].displayName}}
                   <label class="switch">
-                    <input type="checkbox" ng-model="x.properties[0].isSelected">
+                    <input type="checkbox" ng-model="x.properties[0].isSelected" />
                     <span class="slider round"></span>
                   </label>
                 </div>
@@ -78,14 +98,15 @@
             </tr>
             <tr ng-repeat-end ng-repeat="y in x.properties.slice(1)">
               <td>
-                <div class="search-scope-container">{{y.displayName}}
+                <div class="search-scope-container">
+                  {{y.displayName}}
                   <label class="switch">
-                    <input type="checkbox" ng-model="y.isSelected">
+                    <input type="checkbox" ng-model="y.isSelected" />
                     <span class="slider round"></span>
                   </label>
                 </div>
               </td>
-            </tr>            
+            </tr>
           </table>
         </div>
       </div>

@@ -1,3 +1,4 @@
+/* CUSTOM VARIABLES */
 /* GLOBAL */
 /* LOGIN */
 /* DIAGRAM */
@@ -11,6 +12,7 @@
 /* LIST BOX */
 /* PROPERTIES GROUP */
 /* BUTTONS */
+@cwbuttonselectedbackgroundcolor :darken (#ffffff, 5%);
 /* PAGE ACTIONS */
 /* ACCORDIONS */
 /* DISCUSSIONS */
@@ -21,9 +23,9 @@
 /* TASKS & NOTIFICATIONS */
 /* GLOBAL SEARCH */
 /* TOP BAR */
-/* GRID */
 /* DIAGRAM TILE */
 /* MATRIX ADVANCED */
+/* DIAGRAM OVERLAY */
 div.cwLayoutSearch {
   display: flex;
 }
@@ -40,13 +42,13 @@ div.cwLayoutSearch div.left-container div.search-zone-top-bar .options-toggle-co
   margin-bottom: auto;
 }
 div.cwLayoutSearch div.left-container div.search-zone-top-bar .options-toggle-container button.options-toggle {
-  color: #26276d;
+  color: #03a0ce;
   background: transparent;
   border: none;
   outline: none;
 }
 div.cwLayoutSearch div.left-container div.search-zone-top-bar .options-toggle-container button.options-toggle:hover {
-  color: #03a0ce;
+  color: #ffffff;
 }
 div.cwLayoutSearch div.left-container div.search-zone-result ul.search-zone-result {
   padding-left: 20px;
@@ -127,7 +129,7 @@ div.cwLayoutSearch div.popout-search-open.right-container .popout-search-options
   background-color: #2196f3;
 }
 .switch input:focus + .slider {
-  box-shadow: 0 0 1px #03a0ce;
+  box-shadow: 0 0 1px #ffffff;
 }
 .switch input:checked + .slider:before {
   transform: translateX(20px);
@@ -158,22 +160,22 @@ div.cwLayoutSearch div.popout-search-open.right-container .popout-search-options
     outline: none;
     font-size: 1.3em;
   }
-  div.search-zone-search input.layout-search-suggest:disabled {
+  div.search-zone-search input.layout-search-suggest:read-only {
     background-color: initial;
-    cursor: not-allowed;
+    cursor: wait;
   }
   div.search-zone-search button.search-button {
     background: transparent;
     border: none;
-    color: #26276d;
+    color: #03a0ce;
     outline: none;
   }
   div.search-zone-search button.search-button:hover {
-    color: #03a0ce;
+    color: #ffffff;
   }
   div.search-zone-search button.search-button:disabled {
     background-color: initial;
-    cursor: not-allowed;
+    cursor: wait;
   }
 }
 @media screen and (max-width: 1023px) and (min-width: 240px) {
@@ -195,22 +197,22 @@ div.cwLayoutSearch div.popout-search-open.right-container .popout-search-options
     outline: none;
     font-size: 1.3em;
   }
-  div.search-zone-search input.layout-search-suggest:disabled {
+  div.search-zone-search input.layout-search-suggest:read-only {
     background-color: initial;
-    cursor: not-allowed;
+    cursor: wait;
   }
   div.search-zone-search button.search-button {
     background: transparent;
     border: none;
-    color: #26276d;
+    color: #03a0ce;
     outline: none;
   }
   div.search-zone-search button.search-button:hover {
-    color: #03a0ce;
+    color: #ffffff;
   }
   div.search-zone-search button.search-button:disabled {
     background-color: initial;
-    cursor: not-allowed;
+    cursor: wait;
   }
   .popout-open .popout.search-zone-options {
     padding-top: initial;
