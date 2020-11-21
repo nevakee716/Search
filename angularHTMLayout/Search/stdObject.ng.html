@@ -1,0 +1,17 @@
+<div style="display: flex">
+  <span style="flex: 1">
+    {{item.doc.label}} ({{item.doc.famillemetier}})
+    <i ng-if="item.doc.validated" class="fa fa-check" style="color: green" aria-hidden="true"></i>
+  </span>
+  <span style="width: 40px">
+    <i
+      ng-click="cwApi.customFunction.openDiagramPopoutWithID(item.doc._id, x.objectTypeScriptname.toLowerCase() + '_diagram_popout')"
+      style="margin-right: 3px"
+      class="fa fa-info-circle"
+      aria-hidden="true"
+    ></i>
+    <a href="#/cwtype=single&cwview={{x.objectTypeScriptname.toLowerCase()}}&cwid={{item.doc._id}}">
+      <i class="fa fa fa-external-link" aria-hidden="true"></i>
+    </a>
+  </span>
+</div>

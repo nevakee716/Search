@@ -1,0 +1,28 @@
+<div class="cwDocumentBox">
+  <span class="nameContainerAndTags">
+    <div>{{item.doc.name}}</div>
+    <div class="tags">
+      <div class="famillemetier" ng-if="famille != ''" ng-repeat="famille in item.doc['famillemétier'].split('|')">{{famille}}</div>
+      <div class="type">{{item.doc.type}}</div>
+    </div>
+  </span>
+  <span class="date">{{item.doc.whenupdated}}</span>
+  <span class="action">
+    <a ng-if="!cwApi.cwUser.isUserSocial()" href="{{cwApi.getSingleViewHash(x.objectTypeScriptname,item.doc._id)}}">
+      <i class="fa fa-pencil" aria-hidden="true"></i>
+    </a>
+    <i
+      ng-if="isFav(x.objectTypeScriptname,item.doc._id)"
+      class="fa fa-heart"
+      aria-hidden="true"
+      ng-click="removeAsFav(x.objectTypeScriptname,item.doc._id)"
+    ></i>
+    <i
+      ng-if="!isFav(x.objectTypeScriptname,item.doc._id)"
+      class="fa fa-heart-o"
+      aria-hidden="true"
+      ng-click="addAsFav(x.objectTypeScriptname,item.doc._id)"
+    ></i>
+    <a target="_blank" href="{{cleanUrl(item.doc.lienhypertexte)}}"><i class="fa fa-download" aria-hidden="true"></i></a>
+  </span>
+</div>

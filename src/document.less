@@ -1,0 +1,51 @@
+@import "../../_mixins";
+@import "../../_variables";
+
+div.result-container {
+  ul.search-zone-result {
+    li.search-result-node {
+      .cwDocumentBox {
+        display: flex;
+        margin-bottom: 15px;
+        .nameContainerAndTags {
+          flex: 1;
+          color: @cwColor2;
+          margin-right: 10px;
+          .tags {
+            margin-top: 2px;
+            display: flex;
+            flex-wrap: wrap;
+            .famillemetier {
+              border-radius: 2px;
+              padding: 2px 4px 2px 4px;
+              color: #00a87f;
+              background-color: #e5f6f2;
+              margin-right: 2px;
+              margin-bottom: 2px;
+            }
+            .type {
+              border-radius: 2px;
+              padding: 2px 4px 2px 4px;
+              color: #fd6c00;
+              background-color: #fef0e5;
+              margin-right: 2px;
+              margin-bottom: 2px;
+            }
+          }
+        }
+        .date {
+          width: 150px;
+        }
+        .action {
+          width: 52px;
+          .fa.fa-heart {
+            color: @cwColor2;
+          }
+          .fa.fa-heart-o {
+            color: @cwColor1;
+          }
+        }
+      }
+    }
+  }
+}
