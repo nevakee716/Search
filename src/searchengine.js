@@ -185,6 +185,7 @@
     this.reloadData(data);
   };
 
+  engine.prototype.removeDiacritics = removeDiacritics;
   engine.prototype.reloadData = function (data) {
     var i = 0,
       j = 0,

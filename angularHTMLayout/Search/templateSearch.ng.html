@@ -89,7 +89,10 @@
         </div>
         <div ng-if="x.isDisplayed" ng-attr-id="{{'search-result-node-list-' + x.nodeId}}" class="search-result-node-result">
           <ul class="list-search-result">
-            <li ng-if="$index < 50 && x.extended || $index < 20" ng-repeat="item in x.items | orderBy:'doc.name'">
+            <li
+              ng-if="$index < 50 && x.extended || $index < 20"
+              ng-repeat="item in x.items | filter:{ doc.famillemetier: ng.famillemetier | orderBy:'doc.name'"
+            >
               <span ng-if="!x.directive" ng-bind-html="displayItemString(item)"></span>
               <ng-include ng-if="x.directive" src="'../../common/html/Search/' + x.directive + '.ng.html'"></ng-include>
             </li>
