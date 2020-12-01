@@ -85,18 +85,43 @@
           class="search-result-node-label"
           ng-class="'search-result-node-label-' + x.nodeId"
         >
-          {{$root.cwApi.mapToTranslation(mmDataById[x.nodeId].displayName)}}
+          {{$root.cwApi.mapToTranslation(mmDataById[x.nodeId].displayName)}} ({{x.items.length}})
         </div>
-        <div ng-if="x.isDisplayed" ng-attr-id="{{'search-result-node-list-' + x.nodeId}}" class="search-result-node-result">
-          <ul class="list-search-result">
-            <li ng-if="$index < 50 && x.extended || $index < 20" ng-repeat="item in x.items  | orderBy:'doc.name'">
+        <div ng-if="x.hasResult && x.isDisplayed" ng-attr-id="{{'search-result-node-list-' + x.nodeId}}" class="search-result-node-result">
+          <ul ng-init="x.pageNumber = 1" class="list-search-result">
+            <li
+              ng-if="($index < x.pageNumber * elementPerPage)  &&  ($index >= (x.pageNumber-1) * elementPerPage)"
+              ng-repeat="item in x.items | orderBy:'doc.name'"
+            >
               <span ng-if="!x.directive" ng-bind-html="displayItemString(item)"></span>
               <ng-include ng-if="x.directive" src="'../../common/html/Search/' + x.directive + '.ng.html'"></ng-include>
             </li>
-            <span class="moreResult" ng-click="x.extended = true" ng-if="x.items.length > 20 && !x.extended"> Afficher plus de Résultats ... </span>
-            <span class="moreResult" ng-if="x.items.length > 50 && x.extended">
-              Veuillez Restreindre les champs de recherche, trop de résultats, seul les 50 premiers résultats sont affichés ...
-            </span>
+            <div class="pageManager" ng-if="x.items.length > elementPerPage " class="moreResult">
+              <span ng-if="x.pageNumber !== 1" class="pageArrow" ng-click="x.pageNumber = Math.max(x.pageNumber - 1,1)" class="nextPage">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i> Page Précédente
+              </span>
+              <span class="pageSelector">
+                <span ng-click="x.pageNumber = Math.max(x.pageNumber - 5,1)" ng-if="x.pageNumber !== 1 && x.totalPages > 5"
+                  ><i class="fa fa-chevron-left" aria-hidden="true"></i
+                ></span>
+
+                <span
+                  ng-if="getPageValue(page,x) !== null"
+                  ng-repeat="page in [1,2,3,4,5]"
+                  ng-class="getPageValue(page,x) == x.pageNumber ? ['selected'] : []"
+                  ng-click="x.pageNumber = getPageValue(page,x)"
+                >
+                  {{ getPageValue(page,x) }}
+                </span>
+
+                <span ng-click="x.pageNumber = Math.min(x.pageNumber + 5,x.totalPages)" ng-if="x.totalPages > 5 && x.totalPages > x.pageNumber"
+                  ><i class="fa fa-chevron-right" aria-hidden="true"></i
+                ></span>
+              </span>
+              <span class="pageArrow" ng-if="x.totalPages > x.pageNumber" ng-click="x.pageNumber = x.pageNumber + 1" class="nextPage">
+                Page Suivante<i class="fa fa-arrow-right" aria-hidden="true"></i>
+              </span>
+            </div>
           </ul>
         </div>
       </li>

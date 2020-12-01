@@ -143,14 +143,31 @@ div.cwLayoutSearch {
           }
         }
       }
-      .moreResult {
-        text-align: center;
-        font-weight: bold;
-        font-size: 12px;
-        font-weight: bold;
-        border-top: 1px solid @cwColor2;
-        padding-top: 12px;
-        margin-top: 24px;
+      .pageManager {
+        display: flex;
+        border-top: 1px solid;
+        margin-top: 10px;
+        padding-top: 15px;
+        .pageArrow {
+          width: 125px;
+          .fa {
+            margin-left: 5px;
+            margin-right: 5px;
+          }
+        }
+        .pageSelector {
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          span {
+            font-weight: bold;
+            margin-left: 5px;
+            font-size: 12px;
+          }
+          .selected {
+            color: @cwColor2;
+          }
+        }
       }
     }
   }

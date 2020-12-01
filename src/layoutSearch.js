@@ -163,6 +163,8 @@
             $scope.mmDataById = self.mmDataById;
             $scope.data = [];
             $scope.searchValue = "";
+            $scope.elementPerPage = 15;
+            $scope.Math = window.Math;
             $scope.options = {
               isExpanded: hasBuildChanged(),
               search: {
@@ -204,6 +206,7 @@
                 currentValue.directive = $scope.containDirective(currentValue.nodeId) ? $scope.getDirective(currentValue) : null;
                 currentValue.objectTypeScriptname = $scope.getObjectTypeScriptnameFromNodeId(currentValue);
                 currentValue.extended = false;
+                currentValue.totalPages = Math.ceil(currentValue.items.length / $scope.elementPerPage);
               });
               enableInput();
               cwApi.tmpSearch = $scope;
@@ -231,6 +234,16 @@
               cwAPI.customLibs.utils.removeObjectAsFavorite(objectTypeScriptName.toLowerCase(), object_id, function () {
                 $scope.$apply();
               });
+            };
+
+            $scope.getPageValue = function (page, x) {
+              let r;
+              if (page > x.totalPages) return null;
+              if (x.totalPages < 6) return page;
+              r = x.pageNumber - 3 + page;
+              r = Math.max(r, page);
+              r = Math.min(x.totalPages - 5 + page, r);
+              return r;
             };
 
             $scope.saveOptions = function () {
