@@ -1,14 +1,15 @@
 <div class="cwDocumentBox">
   <span class="nameContainerAndTags">
-    <div>{{item.doc.name}}</div>
+    <a target="_blank" href="{{cleanUrl(item.doc['dynamicanonymous'])}}"> {{item.doc.name}} </a>
     <div class="tags">
-      <div class="famillemetier" ng-if="famille != ''" ng-repeat="famille in item.doc['famillemétier'].split('|')">{{famille}}</div>
-      <div class="type">{{item.doc.type}}</div>
+      <div class="tag processarea" ng-if="processarea != ''" ng-repeat="processarea in item.doc['processareas'].split('|')">{{processarea}}</div>
+      <div class="tag function" ng-if="function != ''" ng-repeat="function in item.doc['functions'].split('|')">{{function}}</div>
+      <div class="tag type">{{item.doc.subtype}}</div>
     </div>
   </span>
   <span class="date">{{item.doc.whenupdated}}</span>
   <span class="action">
-    <a ng-if="!cwApi.cwUser.isUserSocial()" href="{{cwApi.getSingleViewHash(x.objectTypeScriptname,item.doc._id)}}">
+    <a ng-if="!cwApi.cwUser.isCurrentUserSocial()" href="{{cwApi.getSingleViewHash(x.objectTypeScriptname,item.doc._id)}}">
       <i class="fa fa-pencil" aria-hidden="true"></i>
     </a>
     <i
@@ -23,6 +24,6 @@
       aria-hidden="true"
       ng-click="addAsFav(x.objectTypeScriptname,item.doc._id)"
     ></i>
-    <a target="_blank" href="{{cleanUrl(item.doc.lienhypertexte)}}"><i class="fa fa-download" aria-hidden="true"></i></a>
+    <a target="_blank" href="{{cleanUrl(item.doc['dynamicanonymous'])}}"><i class="fa fa-download" aria-hidden="true"></i></a>
   </span>
 </div>
