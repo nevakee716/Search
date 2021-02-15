@@ -1,32 +1,45 @@
 {
-	"Name" : "layoutSearch", 
-	"DisplayName" : "Search", 
-	"Description" : "Enable a search in a given scope",
-	"JavaScriptClassName" : "cwLayoutSearch",
-	"Options":[
-		{
-			"Id": "complementary-nodes",
-			"DisplayName": "Complementary Nodes",
-			"Description": "Select Nodes you want to add that are not under search layout. Ex: \"[\"Node1\", \"Node2\"]\"",
-			"Type": 0
-		},
-		{
-			"Id": "search-exact-match",
-			"DisplayName": "Exact match",
-			"Description":"Search for exact match",
-			"Type": 1
-		},
-		{
-			"Id": "search-all-words",
-			"DisplayName": "All words",
-			"Description": "Check if you want to search for all terms or at least one",
-			"Type": 1
-		},
-		{
-			"Id": "search-scope",
-			"DisplayName": "Scope",
-			"Description": "Set the scope as a JSON object",
-			"Type": 0
-		}
-	]
+  "Name": "layoutSearch",
+  "DisplayName": "Search",
+  "Description": "Enable a search in a given scope",
+  "JavaScriptClassName": "cwLayoutSearch",
+  "Options": [
+    {
+      "Id": "complementary-nodes",
+      "DisplayName": "Complementary Nodes",
+      "Description": "Select Nodes you want to add that are not under search layout. Ex: \"[\"Node1\", \"Node2\"]\"",
+      "Type": 0
+    },
+    {
+      "Id": "search-exact-match",
+      "DisplayName": "Exact match",
+      "Description": "Search for exact match",
+      "Type": 1
+    },
+    {
+      "Id": "search-all-words",
+      "DisplayName": "All words",
+      "Description": "Check if you want to search for all terms or at least one",
+      "Type": 1
+    },
+
+    {
+      "Id": "top-bar",
+      "DisplayName": "Search Bar on Top",
+      "Description": "Search Bar will be on top instead of the side",
+      "Type": 1
+    },
+    {
+      "Id": "url",
+      "DisplayName": "Search Url",
+      "Description": "When searching here, it will bring you to this url",
+      "Type": 0
+    },
+    {
+      "Id": "search-scope",
+      "DisplayName": "Scope",
+      "Description": "Set the scope as a JSON object",
+      "Type": 0
+    }
+  ]
 }

@@ -158,11 +158,12 @@
           loader.setup();
           templatePath = self.getTemplatePath("Search", "templateSearch");
           loader.loadControllerWithTemplate("cwLayoutSearch", $container, templatePath, function ($scope, $sce, $http) {
+            $scope.ng = {};
             $scope.containerId = self.nodeID;
             $scope.scope = self.mmData;
             $scope.mmDataById = self.mmDataById;
             $scope.data = [];
-            $scope.searchValue = "";
+            $scope.ng.searchValue = "";
             $scope.elementPerPage = 15;
             $scope.Math = window.Math;
             $scope.options = {
@@ -172,6 +173,8 @@
                 exactMatch: false,
               },
             };
+            $scope.topBar = true;
+            $scope.url = "";
             $scope.isDisabled = false;
 
             function disableInput() {
@@ -183,7 +186,7 @@
               $("body").css("cursor", "default");
             }
             function getResult() {
-              return searchEngine.searchItems($scope.searchValue, $scope.scope, $scope.options.search);
+              return searchEngine.searchItems($scope.ng.searchValue, $scope.scope, $scope.options.search);
             }
             function hasBuildChanged() {
               var json = JSON.parse(localStorage.getItem("cwLayoutSearch_" + self.nodeID));
@@ -198,7 +201,9 @@
               disableInput();
               $scope.data = [];
               // reload data (why)
-
+              if ($scope.url != "") {
+                window.location.href = $scope.url + "&searchq=" + $scope.ng.searchValue;
+              }
               $scope.data = getResult();
               $scope.data.forEach(function (currentValue, index, arr) {
                 currentValue.hasResult = currentValue.items.length > 0 ? true : false;
@@ -264,7 +269,8 @@
             $scope.setOptionsFromConfiguration = function () {
               var i = 0,
                 scopeJson = self.options.CustomOptions["search-scope"];
-
+              $scope.topbar = self.options.CustomOptions["top-bar"];
+              $scope.url = self.options.CustomOptions["url"];
               $scope.options.search.exactMatch = self.options.CustomOptions["search-exact-match"];
               $scope.options.search.allWords = self.options.CustomOptions["search-all-words"];
               if (scopeJson !== "") {
@@ -331,7 +337,7 @@
             // get query string
             var qs = cwApi.getQueryStringObject();
             if (!cwApi.isUndefinedOrNull(qs) && !cwApi.isUndefinedOrNull(qs.searchq)) {
-              $scope.searchValue = qs.searchq;
+              $scope.ng.searchValue = qs.searchq;
               doSearch();
             }
           });
