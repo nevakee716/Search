@@ -1,5 +1,5 @@
 <div ng-controller="cwLayoutSearch" class="cwLayoutSearch cwSearchEngine" ng-class="'cwSearchEngine-' + containerId">
-  <div ng-if="topBar" class="search-zone">
+  <div ng-if="!topBar" class="search-zone">
     <div class="search-zone-top-bar">
       <div class="search-zone-title">{{$root.i18n('advanced-search')}}</div>
       <div class="search-zone-search">
@@ -93,7 +93,7 @@
       <span>{{$root.i18n('layoutsearch_options_search_exact_match')}} : <input type="checkbox" ng-model="options.search.exactMatch" /></span>
     </div>
   </div>
-  <div ng-if="url == '" class="result-container">
+  <div ng-if="url == ''" class="result-container">
     <!-- results -->
     <ul class="search-zone-result">
       <span class="search-result-node label-container" ng-if="ng.searchValue.length > 1 && isDisabled">{{$root.i18n('searchengine_searching')}}</span>
