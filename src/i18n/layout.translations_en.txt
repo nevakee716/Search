@@ -11,3 +11,4 @@ layoutsearch_options_zone_save = Search options have been saved
 advanced-search=Advanced Search
 search=Search
 save=Save
+label_pt_filter_apply_filter=Apply

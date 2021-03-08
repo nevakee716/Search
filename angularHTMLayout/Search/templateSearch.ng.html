@@ -1,76 +1,4 @@
 <div ng-controller="cwLayoutSearch" class="cwLayoutSearch cwSearchEngine" ng-class="'cwSearchEngine-' + containerId">
-  <div ng-if="!topBar" class="search-zone">
-    <div class="search-zone-top-bar">
-      <div class="search-zone-title">{{$root.i18n('advanced-search')}}</div>
-      <div class="search-zone-search">
-        <button ng-click="clickSearch()" class="search-button" title="{{$root.i18n('searchengine_searchbutton')}}">
-          <i class="fa fa-search"></i>
-        </button>
-        <input
-          type="search"
-          name="find"
-          class="layout-search-suggest"
-          ng-model="ng.searchValue"
-          ng-model-options="{ debounce: 666 }"
-          ng-change="keypressSearch($event)"
-          ng-readonly="isDisabled"
-        />
-      </div>
-      <div class="search-zone-search-button">
-        <a ng-click="clickSearch()" class="searchButton"> {{$root.i18n('search')}} </a>
-      </div>
-    </div>
-    <div class="options-container">
-      <table ng-repeat="group in scopeJson" class="options-search-scope">
-        <tbody ng-if="group.nodes.length > 1">
-          <tr>
-            <th colspan="3">{{group.label}}</th>
-          </tr>
-          <tr ng-repeat="node in group.nodes">
-            <td class="search-scope-col1"></td>
-            <td class="search-scope-col2">{{node.label}}</td>
-            <td class="search-scope-col3">
-              <div class="search-scope-container">
-                <input ng-model="scope[node.index].properties[node.properties[0].index].isSelected" type="checkbox" />
-              </div>
-            </td>
-          </tr>
-        </tbody>
-        <tbody ng-if="group.nodes.length == 1">
-          <tr>
-            <th colspan="3">{{group.nodes[0].label}}</th>
-          </tr>
-          <tr ng-repeat="property in group.nodes[0].properties">
-            <td class="search-scope-col1"></td>
-            <td class="search-scope-col2">{{property.label}}</td>
-            <td class="search-scope-col3">
-              <input ng-model="scope[group.nodes[0].index].properties[property.index].isSelected" type="checkbox" />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <table class="options-search-scope">
-        <tr>
-          <td class="search-scope-col1"></td>
-          <td class="search-scope-col2"></td>
-          <td class="search-scope-col3"></td>
-        </tr>
-        <tr>
-          <td colspan="2"><span class="label-container">{{$root.i18n('layoutsearch_options_search_all_words')}}</span></td>
-          <td><input type="checkbox" ng-model="options.search.allWords" /></td>
-        </tr>
-        <tr>
-          <td colspan="2"><span class="label-container">{{$root.i18n('layoutsearch_options_search_exact_match')}}</span></td>
-          <td><input type="checkbox" ng-model="options.search.exactMatch" /></td>
-        </tr>
-      </table>
-      <div class="actions-container">
-        <div class="search-zone-search-button">
-          <a ng-click="saveOptions()" class="searchButton"> {{$root.i18n('save')}} </a>
-        </div>
-      </div>
-    </div>
-  </div>
   <div ng-if="topBar" class="search-zone-top">
     <div class="search-zone-top-bar">
       <div class="search-zone-search">
@@ -86,69 +14,127 @@
           ng-change="keypressSearch($event)"
           ng-readonly="isDisabled"
         />
+        <button ng-click="ng.showOption = !ng.showOption" class="search-button" title="{{$root.i18n('searchengine_showoption')}}">
+          <i class="fa fa-cog"></i>
+        </button>
+      </div>
+      <div class="search-zone-top-bar-option">
+        <span>{{$root.i18n('layoutsearch_options_search_all_words')}} : <input type="checkbox" ng-model="options.search.allWords" /></span>
+        <span>{{$root.i18n('layoutsearch_options_search_exact_match')}} : <input type="checkbox" ng-model="options.search.exactMatch" /></span>
       </div>
     </div>
-    <div class="search-zone-top-bar-option">
-      <span>{{$root.i18n('layoutsearch_options_search_all_words')}} : <input type="checkbox" ng-model="options.search.allWords" /></span>
-      <span>{{$root.i18n('layoutsearch_options_search_exact_match')}} : <input type="checkbox" ng-model="options.search.exactMatch" /></span>
+  </div>
+  <div ng-if="url == ''" class="main">
+    <div ng-if="!topBar || ng.showOption" class="search-zone nextGenCard">
+      <div ng-if="!topBar" class="search-zone-top-bar">
+        <div class="search-zone-title searchtitle">{{$root.i18n('advanced-search')}}</div>
+        <div class="search-zone-search">
+          <button ng-click="clickSearch()" class="search-button" title="{{$root.i18n('searchengine_searchbutton')}}">
+            <i class="fa fa-search"></i>
+          </button>
+          <input
+            type="search"
+            name="find"
+            class="layout-search-suggest"
+            ng-model="ng.searchValue"
+            ng-model-options="{ debounce: 666 }"
+            ng-change="keypressSearch($event)"
+            ng-readonly="isDisabled"
+          />
+        </div>
+        <div class="search-zone-search-button">
+          <a ng-click="clickSearch()" class="searchButton"> {{$root.i18n('search')}} </a>
+        </div>
+      </div>
+      <div class="options-container">
+        <span class="searchtitle">{{$root.i18n('layoutsearch_options_search_scope')}}</span>
+        <table class="options-search-scope">
+          <tr ng-repeat-start="x in scope">
+            <th colspan="2">{{$root.cwApi.mapToTranslation(x.displayName)}}</th>
+          </tr>
+          <tr ng-repeat="y in x.properties">
+            <td>
+              <div class="search-scope-container">
+                {{y.displayName}}
+              </div>
+            </td>
+            <td>
+              <label class="switch">
+                <input type="checkbox" ng-model="y.isSelected" />
+                <span class="slider round"></span>
+              </label>
+            </td>
+          </tr>
+          <tr style="height: 20.8px;" ng-repeat-end></tr>
+        </table>
+      </div>
+    </div>
+    <!-- options -->
+    <div class="result-container">
+      <!-- results -->
+      <div class="search-zone-result">
+        <span class="search-result-node label-container" ng-if="ng.searchValue.length > 1 && isDisabled"
+          >{{$root.i18n('searchengine_searching')}}</span
+        >
+        <span class="search-result-node no-result searchtitle" ng-if="!isDisabled && ng.searchValue.length > 1 && !dataHasResult() ">
+          {{$root.i18n('searchengine_noresult')}}
+        </span>
+        <div class="search-result-node nextGenCard" ng-repeat="x in data" ng-if="x.hasResult" ng-class="'search-result-node-' + x.nodeId">
+          <div ng-attr-nodeid="x.nodeId" class="search-result-node-label" ng-class="'search-result-node-label-' + x.nodeId">
+            <span class="searchtitle" ng-click="toggleResultNode(x)">{{x.title}} ({{x.filteredItems.length}})</span>
+
+            <span class="searchtitle rightExpandButton">
+              <i
+                class="fa fa-filter"
+                ng-class="{enabled : x.displayFilter || x.filters.length > 0}"
+                ng-click="x.displayFilter = !x.displayFilter"
+              ></i>
+              <span ng-click="toggleResultNode(x)" ng-if="x.isDisplayed !== true">{{$root.i18n('close')}}</span>
+              <span ng-click="toggleResultNode(x)" ng-if="x.isDisplayed === true">{{$root.i18n('open')}}</span>
+              <i ng-click="toggleResultNode(x)" ng-if="x.isDisplayed === true" class="fa fa-caret-square-o-down expendIcon"></i>
+              <i ng-click="toggleResultNode(x)" ng-if="x.isDisplayed !== true" class="fa fa-caret-square-o-left expendIcon"></i>
+            </span>
+          </div>
+          <ng-include ng-if="x.displayFilter" src="'../../common/html/Search/templateFilterContainer.ng.html'"></ng-include>
+          <div ng-if="x.hasResult && x.isDisplayed " ng-attr-id="{{'search-result-node-list-' + x.nodeId}}" class="search-result-node-result">
+            <ul ng-init="x.pageNumber = 1" class="list-search-result">
+              <li
+                ng-if="($index < x.pageNumber * elementPerPage)  &&  ($index >= (x.pageNumber-1) * elementPerPage)"
+                ng-repeat="item in x.filteredItems | orderBy:'doc.name'"
+              >
+                <span ng-if="!x.directive" ng-bind-html="displayItemString(item)"></span>
+                <ng-include ng-if="x.directive" src="'../../common/html/Search/' + x.directive + '.ng.html'"></ng-include>
+              </li>
+              <div class="pageManager" ng-if="x.filteredItems.length > elementPerPage " class="moreResult">
+                <span ng-if="x.pageNumber !== 1" class="pageArrow" ng-click="x.pageNumber = Math.max(x.pageNumber - 1,1)" class="nextPage">
+                  <i class="fa fa-arrow-left" aria-hidden="true"></i> Page Précédente
+                </span>
+                <span class="pageSelector">
+                  <span ng-click="x.pageNumber = Math.max(x.pageNumber - 5,1)" ng-if="x.pageNumber !== 1 && x.totalPages > 5"
+                    ><i class="fa fa-chevron-left" aria-hidden="true"></i
+                  ></span>
+
+                  <span
+                    ng-if="getPageValue(page,x) !== null"
+                    ng-repeat="page in [1,2,3,4,5]"
+                    ng-class="getPageValue(page,x) == x.pageNumber ? ['selected'] : []"
+                    ng-click="x.pageNumber = getPageValue(page,x)"
+                  >
+                    {{ getPageValue(page,x) }}
+                  </span>
+
+                  <span ng-click="x.pageNumber = Math.min(x.pageNumber + 5,x.totalPages)" ng-if="x.totalPages > 5 && x.totalPages > x.pageNumber"
+                    ><i class="fa fa-chevron-right" aria-hidden="true"></i
+                  ></span>
+                </span>
+                <span class="pageArrow" ng-if="x.totalPages > x.pageNumber" ng-click="x.pageNumber = x.pageNumber + 1" class="nextPage">
+                  Page Suivante<i class="fa fa-arrow-right" aria-hidden="true"></i>
+                </span>
+              </div>
+            </ul>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
-  <div ng-if="url == ''" class="result-container">
-    <!-- results -->
-    <ul class="search-zone-result">
-      <span class="search-result-node label-container" ng-if="ng.searchValue.length > 1 && isDisabled">{{$root.i18n('searchengine_searching')}}</span>
-      <span class="search-result-node no-result label-container" ng-if="!isDisabled && ng.searchValue.length > 1 && !dataHasResult() ">
-        {{$root.i18n('searchengine_noresult')}}
-      </span>
-      <li class="search-result-node" ng-repeat="x in data" ng-if="x.hasResult" ng-class="'search-result-node-' + x.nodeId">
-        <div
-          ng-click="toggleResultNode(x)"
-          ng-attr-nodeid="x.nodeId"
-          class="search-result-node-label"
-          ng-class="'search-result-node-label-' + x.nodeId"
-        >
-          {{$root.cwApi.mapToTranslation(mmDataById[x.nodeId].displayName)}} ({{x.items.length}})
-        </div>
-        <div ng-if="x.hasResult && x.isDisplayed" ng-attr-id="{{'search-result-node-list-' + x.nodeId}}" class="search-result-node-result">
-          <ul ng-init="x.pageNumber = 1" class="list-search-result">
-            <li
-              ng-if="($index < x.pageNumber * elementPerPage)  &&  ($index >= (x.pageNumber-1) * elementPerPage)"
-              ng-repeat="item in x.items | orderBy:'doc.name'"
-            >
-              <span ng-if="!x.directive" ng-bind-html="displayItemString(item)"></span>
-              <ng-include ng-if="x.directive" src="'../../common/html/Search/' + x.directive + '.ng.html'"></ng-include>
-            </li>
-            <div class="pageManager" ng-if="x.items.length > elementPerPage " class="moreResult">
-              <span ng-if="x.pageNumber !== 1" class="pageArrow" ng-click="x.pageNumber = Math.max(x.pageNumber - 1,1)" class="nextPage">
-                <i class="fa fa-arrow-left" aria-hidden="true"></i> Page Précédente
-              </span>
-              <span class="pageSelector">
-                <span ng-click="x.pageNumber = Math.max(x.pageNumber - 5,1)" ng-if="x.pageNumber !== 1 && x.totalPages > 5"
-                  ><i class="fa fa-chevron-left" aria-hidden="true"></i
-                ></span>
-
-                <span
-                  ng-if="getPageValue(page,x) !== null"
-                  ng-repeat="page in [1,2,3,4,5]"
-                  ng-class="getPageValue(page,x) == x.pageNumber ? ['selected'] : []"
-                  ng-click="x.pageNumber = getPageValue(page,x)"
-                >
-                  {{ getPageValue(page,x) }}
-                </span>
-
-                <span ng-click="x.pageNumber = Math.min(x.pageNumber + 5,x.totalPages)" ng-if="x.totalPages > 5 && x.totalPages > x.pageNumber"
-                  ><i class="fa fa-chevron-right" aria-hidden="true"></i
-                ></span>
-              </span>
-              <span class="pageArrow" ng-if="x.totalPages > x.pageNumber" ng-click="x.pageNumber = x.pageNumber + 1" class="nextPage">
-                Page Suivante<i class="fa fa-arrow-right" aria-hidden="true"></i>
-              </span>
-            </div>
-          </ul>
-        </div>
-      </li>
-    </ul>
-  </div>
-
-  <!-- options -->
 </div>

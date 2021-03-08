@@ -1,0 +1,51 @@
+<div class="search-filter">
+  <table class="filter-table">
+    <tr>
+      <th class="header-property">{{$root.i18n('label_pt_filter_column_property')}}</th>
+      <th class="header-operator">{{$root.i18n('label_pt_filter_column_operator')}}</th>
+      <th class="header-value">{{$root.i18n('label_pt_filter_column_value')}}</th>
+    </tr>
+    <tr ng-repeat="f in x.filters">
+      <td class="filter-property">
+        <select
+          ng-model="f.Asset"
+          ng-options="p.scriptName as p.name for p in x.propertiesSelected | orderBy:'name'"
+          ng-change="resetFilter(f)"
+        ></select>
+      </td>
+
+      <td ng-if="f.Asset" class="filter-operator filter-cell">
+        <select ng-model="f.Operator" ng-options="o for o in operators"></select>
+      </td>
+      <td ng-if="f.Asset" class="filter-value filter-cell">
+        <div ng-if="f.Asset">
+          <div>
+            <input
+              class="filter-text"
+              ng-model="f.Value"
+              ng-if="cwApi.mm.getProperty(x.objectTypeScriptname,f.Asset).type!=='Lookup' && cwApi.mm.getProperty(x.objectTypeScriptname,f.Asset).type!=='Boolean'"
+              type="{{cwApi.mm.getProperty(x.objectTypeScriptname,f.Asset).type}}"
+            />
+          </div>
+          <select
+            ng-model="f.Value"
+            ng-if="cwApi.mm.getProperty(x.objectTypeScriptname,f.Asset).type === 'Lookup'"
+            ng-options="l.name as l.name for l in cwApi.mm.getProperty(x.objectTypeScriptname,f.Asset).lookups"
+          ></select>
+          <div ng-if="cwApi.mm.getProperty(x.objectTypeScriptname,f.Asset).type==='Boolean'">
+            <input class="filter-boolean" ng-model="f.Value" type="checkbox" />
+          </div>
+        </div>
+      </td>
+      <td ng-click="removeFilter(x,$index)" class="filter-cell">
+        <i class="fa fa-times" aria-hidden="true"></i>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3" class="add-filter-button bootstrap-iso">
+        <a class="btn-add-filter btn page-action" ng-click="x.filters.push({})">{{$root.i18n('label_pt_filter_add_new')}}</a>
+        <a class="btn-apply-filter btn page-action" ng-click="applyFilters(x)">{{$root.i18n('label_pt_filter_apply_filter')}}</a>
+      </td>
+    </tr>
+  </table>
+</div>

@@ -11,3 +11,4 @@ layoutsearch_options_zone_save = Les options de recherche ont bien été sauvega
 advanced-search=Recherche Avancée
 search=Recherche
 save=Sauvegarder
+label_pt_filter_apply_filter=Appliquer

@@ -51,7 +51,7 @@
       meta.properties.push({
         displayName: pt.name,
         scriptName: pt.scriptName,
-        isSelected: true,
+        isSelected: ["String", "Memo", "Lookup"].indexOf(pt.type) !== -1,
       });
     }
     return meta;
@@ -89,10 +89,14 @@
       } else {
         this.searchNodes = [this.nodeID];
       }
-    } catch (err) {
-      console.error(err);
-      this.errorMessages.push($.i18n("layoutsearch_setup_complementary_nodes"));
-      return;
+    } catch (e) {
+      try {
+        this.searchNodes = [this.nodeID].concat(this.options.CustomOptions["complementary-nodes"].split(","));
+      } catch (err) {
+        console.error(err);
+        this.errorMessages.push($.i18n("layoutsearch_setup_complementary_nodes"));
+        return;
+      }
     }
     // set display name for each object
     for (i = 0; i < this.searchNodes.length; i += 1) {
@@ -204,6 +208,7 @@
               if ($scope.url != "") {
                 window.location.href = $scope.url + "&searchq=" + $scope.ng.searchValue;
               }
+              $scope.operators = ["=", "!=", ">", "<", "In"];
               $scope.data = getResult();
               $scope.data.forEach(function (currentValue, index, arr) {
                 currentValue.hasResult = currentValue.items.length > 0 ? true : false;
@@ -211,11 +216,23 @@
                 currentValue.directive = $scope.containDirective(currentValue.nodeId) ? $scope.getDirective(currentValue) : null;
                 currentValue.objectTypeScriptname = $scope.getObjectTypeScriptnameFromNodeId(currentValue);
                 currentValue.extended = false;
+                currentValue.displayFilter = false;
+                try {
+                  currentValue.filters = JSON.parse(localStorage.getItem("psgGlobalSeach_" + currentValue.nodeId + "_" + cwApi.getDeployNumber()));
+                } catch (e) {}
+                if (!currentValue.filters) currentValue.filters = [];
+
+                $scope.applyFilters(currentValue);
+                currentValue.title = self.viewSchema.NodesByID[currentValue.nodeId].NodeName;
+                currentValue.propertiesSelected = self.viewSchema.NodesByID[currentValue.nodeId].PropertiesSelected.map(function (ps) {
+                  return cwApi.mm.getProperty(currentValue.objectTypeScriptname, ps);
+                });
                 currentValue.totalPages = Math.ceil(currentValue.items.length / $scope.elementPerPage);
               });
               enableInput();
               cwApi.tmpSearch = $scope;
             }
+            $scope.showOption = false;
             $scope.cwApi = cwApi;
             $scope.toggleOptions = function () {
               $scope.options.isExpanded = !$scope.options.isExpanded;
@@ -266,6 +283,30 @@
                 $scope.scope = json.scope;
               }
             };
+            $scope.addFilter = function (x) {
+              $scope.filters.push({});
+            };
+            $scope.removeFilter = function (x, index) {
+              x.filters.splice(index, 1);
+            };
+            $scope.resetFilter = function (filter) {
+              filter.Operator = "";
+              filter.Value = "";
+            };
+            $scope.applyFilters = function (x) {
+              localStorage.setItem("psgGlobalSeach_" + x.nodeId + "_" + cwApi.getDeployNumber(), angular.toJson(x.filters));
+              if (!x.filters) {
+                x.filteredItems = x.items;
+                return;
+              }
+              let f = new cwAPI.customLibs.utils.cwFilter(x.objectTypeScriptname);
+              f.init(x.filters);
+              x.filteredItems = x.items.filter(function (item) {
+                item.properties = item.doc;
+                return f.isMatching(item);
+              });
+            };
+
             $scope.setOptionsFromConfiguration = function () {
               var i = 0,
                 scopeJson = self.options.CustomOptions["search-scope"];
