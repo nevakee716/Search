@@ -269,11 +269,12 @@ div.cwLayoutSearch div.result-container div.search-zone-result div.search-result
 }
 div.cwLayoutSearch div.result-container div.search-zone-result .pageManager {
   display: flex;
-  border-top: 1px solid;
+  border-top: 1px solid #03a0ce;
   margin-top: 10px;
   padding-top: 15px;
 }
 div.cwLayoutSearch div.result-container div.search-zone-result .pageManager .pageArrow {
+  color: #03a0ce;
   width: 125px;
 }
 div.cwLayoutSearch div.result-container div.search-zone-result .pageManager .pageArrow .fa {
