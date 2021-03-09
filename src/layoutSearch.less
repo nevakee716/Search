@@ -297,13 +297,25 @@ div.cwLayoutSearch {
 
 .cw-home-navigation .homePage_main .homePage_column .homePage_display.Search {
   margin-bottom: 0px;
-  margin-top: 0px;
+  margin-top: 0.75rem;
+  background: transparent;
+  box-shadow: none;
   .homePage_display_content {
     padding: 0px;
-    div.layoutSearch {
-      margin: 0px;
-      .search-zone-top-bar-option {
-        background-color: @cwBodyBackgroundColor;
+    background: transparent;
+    .homePage_evolveView {
+      div.layoutSearch {
+        margin: 0px;
+        .cwLayoutSearch {
+          .fa-cog {
+            display: none;
+          }
+          .search-zone-top {
+            .search-zone-top-bar-option {
+              background-color: @cwBodyBackgroundColor;
+            }
+          }
+        }
       }
     }
   }
