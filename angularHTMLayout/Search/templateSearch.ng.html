@@ -62,7 +62,7 @@
             </td>
             <td>
               <label class="switch">
-                <input type="checkbox" ng-model="y.isSelected" />
+                <input type="checkbox" ng-model="y.isSelected" ng-model-options="{ debounce: 666 }" ng-change="keypressSearch($event)"/>
                 <span class="slider round"></span>
               </label>
             </td>
