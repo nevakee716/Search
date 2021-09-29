@@ -232,7 +232,7 @@
               enableInput();
               cwApi.tmpSearch = $scope;
             }
-            $scope.showOption = false;
+            $scope.ng.showOption = self.options.CustomOptions["searchOption"];
             $scope.cwApi = cwApi;
             $scope.toggleOptions = function () {
               $scope.options.isExpanded = !$scope.options.isExpanded;

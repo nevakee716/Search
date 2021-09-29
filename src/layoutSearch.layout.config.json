@@ -36,6 +36,12 @@
       "Type": 0
     },
     {
+      "Id": "searchOption",
+      "DisplayName": "Search Option Available at Start",
+      "Description": "Search Option Available at Start",
+      "Type": 1
+    },
+    {
       "Id": "search-scope",
       "DisplayName": "Scope",
       "Description": "Set the scope as a JSON object",
