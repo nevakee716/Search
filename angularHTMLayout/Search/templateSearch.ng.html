@@ -20,8 +20,8 @@
         </button>
       </div>
       <div class="search-zone-top-bar-option">
-        <span><input type="checkbox" ng-model="options.search.allWords" /> {{$root.i18n('layoutsearch_options_search_all_words')}}</span>
-        <span><input type="checkbox" ng-model="options.search.exactMatch" /> {{$root.i18n('layoutsearch_options_search_exact_match')}}</span>
+        <span><input type="checkbox" ng-change="keypressSearch($event)" ng-model-options="{ debounce: 666 }" ng-model="options.search.allWords" /> {{$root.i18n('layoutsearch_options_search_all_words')}}</span>
+        <span><input type="checkbox" ng-change="keypressSearch($event)" ng-model-options="{ debounce: 666 }" ng-model="options.search.exactMatch" /> {{$root.i18n('layoutsearch_options_search_exact_match')}}</span>
       </div>
     </div>
   </div>

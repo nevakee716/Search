@@ -205,9 +205,14 @@
               disableInput();
               $scope.data = [];
               // reload data (why)
-              if ($scope.url != "") {
-                window.location.href = $scope.url + "&searchq=" + $scope.ng.searchValue;
+
+              if ($scope.url) {
+                localStorage.setItem("cwLayoutSearch_searchtext_from_home", $scope.ng.searchValue);
+                window.location.href = $scope.url;
+              } else {
+                localStorage.setItem("cwLayoutSearch_searchtext" + self.nodeID, $scope.ng.searchValue);
               }
+
               $scope.operators = ["=", "!=", ">", "<", "In"];
               $scope.data = getResult();
               $scope.data.forEach(function (currentValue, index, arr) {
@@ -376,10 +381,13 @@
             // set option & scope from localstorage
             $scope.setOptionsFromLocalStorage();
             // get query string
-            var qs = cwApi.getQueryStringObject();
-            if (!cwApi.isUndefinedOrNull(qs) && !cwApi.isUndefinedOrNull(qs.searchq)) {
-              $scope.ng.searchValue = qs.searchq;
-              doSearch();
+            if ($scope.url === "") {
+              let searchText = localStorage.getItem("cwLayoutSearch_searchtext_from_home");
+              if (!searchText) searchText = localStorage.getItem("cwLayoutSearch_searchtext" + self.nodeID);
+              else localStorage.removeItem("cwLayoutSearch_searchtext_from_home");
+              $scope.ng.searchValue = searchText;
+
+              if ($scope.ng.searchValue) doSearch();
             }
           });
         });
