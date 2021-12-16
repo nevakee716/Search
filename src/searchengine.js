@@ -145,13 +145,16 @@
         _sort: o.sort,
       };
     for (i = 0; i < properties.length; i += 1) {
-      val = cwApi.cwPropertiesGroups.getDisplayValue(
-        o.objectTypeScriptName,
-        properties[i].scriptName,
-        o.properties[properties[i].scriptName],
-        o,
-        "properties"
-      );
+      val =
+        cwApi.mm.getProperty(o.objectTypeScriptName, properties[i].scriptName).type === "URL"
+          ? o.properties[properties[i].scriptName]
+          : cwApi.cwPropertiesGroups.getDisplayValue(
+              o.objectTypeScriptName,
+              properties[i].scriptName,
+              o.properties[properties[i].scriptName],
+              o,
+              "properties"
+            );
       doc[properties[i].scriptName] = removeDiacritics(val);
     }
     return doc;
