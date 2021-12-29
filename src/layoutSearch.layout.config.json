@@ -46,6 +46,12 @@
       "DisplayName": "Scope",
       "Description": "Set the scope as a JSON object",
       "Type": 0
+    },
+    {
+      "Id": "search-halfword",
+      "DisplayName": "Search on partial word",
+      "Description": "acturation will find facturation",
+      "Type": 1
     }
   ]
 }

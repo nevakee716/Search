@@ -154,7 +154,7 @@
     cwApi.customLibs.aSyncLayoutLoader.loadUrls(["modules/elasticlunr/elasticlunr.min.js"], function (error) {
       if (error === null) {
         //search engine lib loaded. Create index
-        var searchEngine = new cwApi.customLibs.cwLayoutSearch.searchEngine(self.mmData, self.data);
+        var searchEngine = new cwApi.customLibs.cwLayoutSearch.searchEngine(self.mmData, self.data, self.options.CustomOptions["search-halfword"]);
         cwApi.CwAsyncLoader.load("angular", function () {
           var loader = cwApi.CwAngularLoader,
             templatePath,
@@ -201,7 +201,6 @@
               return true;
             }
             function doSearch() {
-              console.log("Do search");
               disableInput();
               $scope.data = [];
               // reload data (why)

@@ -181,11 +181,12 @@
     });
   }
 
-  engine = function (mm, data) {
+  engine = function (mm, data, customSearch) {
     diacriticsMap = initDiacriticsMap();
     this.mm = mm;
     this.indexesById = {};
     this.reloadData(data);
+    this.customSearch = customSearch;
   };
 
   engine.prototype.removeDiacritics = removeDiacritics;
@@ -262,18 +263,55 @@
     var res = [],
       prep,
       n,
-      x;
+      x,
+      t,
+      j,
+      terms = q.split(" ");
     prep = this.prepareSearch(scope, opt);
     for (n in prep) {
       if (prep.hasOwnProperty(n)) {
         x = prep[n].data;
         if (prep[n].enableSearch) {
-          x.items = this.indexesById[n].search(q, prep[n].config);
+          if (!this.customSearch) x.items = this.indexesById[n].search(q, prep[n].config);
+          else {
+            // search for each word separately
+            var foundArray = {};
+            for (i = 0; i < terms.length; i += 1) {
+              t = terms[i];
+              var foundItems = this.customSearch(t, prep[n].config, this.indexesById[n]);
+              // var foundItems = this.indexesById[n].search(t, prep[n].config);
+              for (j = 0; j < foundItems.length; j += 1) {
+                if (!foundArray.hasOwnProperty(foundItems[j].ref)) {
+                  foundArray[foundItems[j].ref] = { doc: foundItems[j], terms: {} };
+                }
+              }
+            }
+            // filter data found for each term
+            for (let ref in foundArray) {
+              x.items.push(foundArray[ref].doc);
+            }
+          }
         }
         res.push(x);
       }
     }
     return res;
+  };
+
+  engine.prototype.customSearch = function (t, config, dico) {
+    let r = [];
+    Object.keys(dico.documentStore.docs).forEach(function (docKey) {
+      let doc = dico.documentStore.docs[docKey];
+      Object.keys(config.fields).some(function (field) {
+        let f = config.expand ? removeDiacritics(doc[field].toLowerCase()) : doc[field];
+        if (f.indexOf(t) !== -1) {
+          r.push({ ref: doc._id, score: 1.42, doc: doc });
+          return true;
+        }
+        return false;
+      });
+    });
+    return r;
   };
 
   engine.prototype.searchAllItems = function (q, scope, opt) {
@@ -296,7 +334,11 @@
           var foundArray = {};
           for (i = 0; i < terms.length; i += 1) {
             t = terms[i];
-            var foundItems = this.indexesById[n].search(t, prep[n].config);
+            if (this.customSearch) {
+              var foundItems = this.customSearch(t, prep[n].config, this.indexesById[n]);
+            } else {
+              var foundItems = this.indexesById[n].search(t, prep[n].config);
+            }
             for (j = 0; j < foundItems.length; j += 1) {
               if (!foundArray.hasOwnProperty(foundItems[j].ref)) {
                 foundArray[foundItems[j].ref] = { doc: foundItems[j], terms: {} };
