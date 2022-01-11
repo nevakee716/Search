@@ -132,33 +132,7 @@
       { base: "y", letters: "\u0079\u24E8\uFF59\u1EF3\u00FD\u0177\u1EF9\u0233\u1E8F\u00FF\u1EF7\u1E99\u1EF5\u01B4\u024F\u1EFF" },
       { base: "z", letters: "\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763" },
     ],
-    diacriticsMap,
-    createDocument;
-
-  createDocument = function (properties, o) {
-    var i,
-      val,
-      doc = {
-        _id: o.object_id,
-        _nodeID: o.nodeID,
-        _displayName: o.displayName,
-        _sort: o.sort,
-      };
-    for (i = 0; i < properties.length; i += 1) {
-      val =
-        cwApi.mm.getProperty(o.objectTypeScriptName, properties[i].scriptName).type === "URL"
-          ? o.properties[properties[i].scriptName]
-          : cwApi.cwPropertiesGroups.getDisplayValue(
-              o.objectTypeScriptName,
-              properties[i].scriptName,
-              o.properties[properties[i].scriptName],
-              o,
-              "properties"
-            );
-      doc[properties[i].scriptName] = removeDiacritics(val);
-    }
-    return doc;
-  };
+    diacriticsMap;
 
   function initDiacriticsMap() {
     var a,
@@ -186,7 +160,32 @@
     this.mm = mm;
     this.indexesById = {};
     this.reloadData(data);
-    this.customSearch = customSearch;
+    this.customSearchOption = customSearch;
+  };
+
+  engine.prototype.createDocument = function (properties, o) {
+    var i,
+      val,
+      doc = {
+        _id: o.object_id,
+        _nodeID: o.nodeID,
+        _displayName: o.displayName,
+        _sort: o.sort,
+      };
+    for (i = 0; i < properties.length; i += 1) {
+      val =
+        cwApi.mm.getProperty(o.objectTypeScriptName, properties[i].scriptName).type === "URL"
+          ? o.properties[properties[i].scriptName]
+          : cwApi.cwPropertiesGroups.getDisplayValue(
+              o.objectTypeScriptName,
+              properties[i].scriptName,
+              o.properties[properties[i].scriptName],
+              o,
+              "properties"
+            );
+      doc[properties[i].scriptName] = this.customSearchOption ? val : removeDiacritics(val);
+    }
+    return doc;
   };
 
   engine.prototype.removeDiacritics = removeDiacritics;
@@ -210,7 +209,7 @@
       }
       // add documents
       for (j = 0; j < data[nodeId].length; j += 1) {
-        doc = createDocument(this.mm[i].properties, data[nodeId][j]);
+        doc = this.createDocument(this.mm[i].properties, data[nodeId][j]);
         index.addDoc(doc);
       }
       this.indexesById[nodeId] = index;
@@ -219,7 +218,7 @@
 
   engine.prototype.searchItems = function (str, scope, opt) {
     // use all indexes
-    var q = removeDiacritics(str);
+    var q = this.customSearchOption ? str : removeDiacritics(str);
     if (opt.allWords) {
       return this.searchAllItems(q, scope, opt);
     } else {
@@ -272,7 +271,7 @@
       if (prep.hasOwnProperty(n)) {
         x = prep[n].data;
         if (prep[n].enableSearch) {
-          if (!this.customSearch) x.items = this.indexesById[n].search(q, prep[n].config);
+          if (!this.customSearchOption) x.items = this.indexesById[n].search(q, prep[n].config);
           else {
             // search for each word separately
             var foundArray = {};
@@ -300,11 +299,13 @@
 
   engine.prototype.customSearch = function (t, config, dico) {
     let r = [];
+    let searchText = config.expand && this.customSearchOption ? removeDiacritics(t.toLowerCase()) : t;
     Object.keys(dico.documentStore.docs).forEach(function (docKey) {
       let doc = dico.documentStore.docs[docKey];
       Object.keys(config.fields).some(function (field) {
         let f = config.expand ? removeDiacritics(doc[field].toLowerCase()) : doc[field];
-        if (f.indexOf(t) !== -1) {
+
+        if (f.indexOf(searchText) !== -1) {
           r.push({ ref: doc._id, score: 1.42, doc: doc });
           return true;
         }
@@ -334,7 +335,7 @@
           var foundArray = {};
           for (i = 0; i < terms.length; i += 1) {
             t = terms[i];
-            if (this.customSearch) {
+            if (this.customSearchOption) {
               var foundItems = this.customSearch(t, prep[n].config, this.indexesById[n]);
             } else {
               var foundItems = this.indexesById[n].search(t, prep[n].config);
