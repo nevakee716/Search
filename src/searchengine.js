@@ -159,8 +159,8 @@
     diacriticsMap = initDiacriticsMap();
     this.mm = mm;
     this.indexesById = {};
-    this.reloadData(data);
     this.customSearchOption = customSearch;
+    this.reloadData(data);
   };
 
   engine.prototype.createDocument = function (properties, o) {
