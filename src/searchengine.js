@@ -171,6 +171,7 @@
         _nodeID: o.nodeID,
         _displayName: o.displayName,
         _sort: o.sort,
+        _niceList : o.niceList
       };
     for (i = 0; i < properties.length; i += 1) {
       val =
