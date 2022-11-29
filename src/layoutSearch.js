@@ -94,6 +94,7 @@
         }).forEach(function(ps){
         
           let property = cwAPI.mm.getProperty(o.objectTypeScriptName,ps);
+          if(property.type === "Memo") return;
           if(property.type === "URL") {
             o.niceList.urlPropertiesScriptname = ps;
             o.niceList.url = o.properties[ps]
