@@ -2,23 +2,34 @@
 /*global cwAPI, jQuery*/
 
 (function (cwApi, $) {
+  var color = [
+    {
+      color: "#0094dc",
+      "background-color": "#e1f5ff",
+    },
+    {
+      color: "#13d613",
+      "background-color": "#ddffdd",
+    },
+    {
+      color: "#fd6c00",
+      "background-color": "#fef0e5",
+    },
+    {
+      color: "#7300ff",
+      "background-color": "#F1E5FF",
+    },
+    {
+      color: "#16537E",
+      "background-color": "#E7EDF2",
+    },
+    {
+      color: "#FFC61A",
+      "background-color": "#FFF9E8",
+    },
+  ];
 
-
-  var color = [{
-    "color": "#0094dc",
-    "background-color": "#e1f5ff"
-  },{
-    "color": "#13d613",
-    "background-color": "#ddffdd"
-  },{
-    "color": "#fd6c00",
-    "background-color": "#fef0e5"
-  }];
-
-
-
-
-  "use strict";
+  ("use strict");
   var cwLayoutSearch = function (options, viewSchema) {
     cwApi.extend(this, cwApi.cwLayouts.CwLayout, options, viewSchema);
     this.drawOneMethod = cwApi.cwLayouts.cwLayoutList.drawOne.bind(this);
@@ -81,7 +92,7 @@
       for (i = 0; i < object[nodeId].length; i += 1) {
         o = object[nodeId][i];
         o.displayName = cwAPI.customLibs.utils.getItemDisplayString(this.viewSchema.ViewName, o);
-        
+
         o.niceList = {};
         if (cwAPI.customLibs.utils.isObjectFavorite(o.objectTypeScriptName, o.object_id)) {
           o.niceList.setAsFav = true;
@@ -89,50 +100,56 @@
           o.niceList.setAsFav = false;
         }
         o.niceList.tagProperties = [];
-        Object.keys(o.properties).filter(function(p) {
-          return ['name'].indexOf(p) === -1 && ['exportflag'].indexOf(p) === -1 && p.indexOf("_id") === -1 && p.indexOf("_abbreviation") === -1 && ['cwaveragerating'].indexOf(p) === -1 && ['cwtotalcomment'].indexOf(p) === -1;
-        }).forEach(function(ps){
-        
-          let property = cwAPI.mm.getProperty(o.objectTypeScriptName,ps);
-          if(property.type === "Memo") return;
-          if(property.type === "URL") {
-            o.niceList.urlPropertiesScriptname = ps;
-            o.niceList.url = o.properties[ps]
-          }
-          else if(property.type === "Date") {
-            o.niceList.datePropertiesScriptname = ps;
-            o.niceList.date = o.properties[o.niceList.datePropertiesScriptname]
-          } else {
-            o.niceList.tagProperties.push(o.properties[ps]);
-          }
-        })
+        Object.keys(o.properties)
+          .filter(function (p) {
+            return (
+              ["name"].indexOf(p) === -1 &&
+              ["exportflag"].indexOf(p) === -1 &&
+              p.indexOf("_id") === -1 &&
+              p.indexOf("_abbreviation") === -1 &&
+              ["cwaveragerating"].indexOf(p) === -1 &&
+              ["cwtotalcomment"].indexOf(p) === -1
+            );
+          })
+          .forEach(function (ps) {
+            let property = cwAPI.mm.getProperty(o.objectTypeScriptName, ps);
+            if (property.type === "Memo") return;
+            if (property.type === "URL") {
+              o.niceList.urlPropertiesScriptname = ps;
+              o.niceList.url = o.properties[ps];
+            } else if (property.type === "Date") {
+              o.niceList.datePropertiesScriptname = ps;
+              o.niceList.datePropertiesName = cwApi.mm.getProperty(o.objectTypeScriptName, ps).name;
+              o.niceList.date = o.properties[o.niceList.datePropertiesScriptname];
+            } else {
+              o.niceList.tagProperties.push(o.properties[ps]);
+            }
+          });
         let config = cwAPI.customLibs.utils.getCustomLayoutConfiguration("cdsEnhanced");
         if (config) {
           if (config.displayPopoutByDefault) {
-      
             let popOutName = cwApi.replaceSpecialCharacters(o.objectTypeScriptName) + "_diagram_popout";
             if (cwAPI.ViewSchemaManager.pageExists(popOutName) === true) {
-              o.niceList.popout = {id:o.object_id,name:popOutName};
+              o.niceList.popout = { id: o.object_id, name: popOutName };
             }
           }
         }
         o.niceList.associationsIcon = [];
         o.niceList.associations = [];
-        Object.keys(o.associations).forEach(function(k){
-          if(k.indexOf("_icon") !== -1){
+        Object.keys(o.associations).forEach(function (k) {
+          if (k.indexOf("_icon") !== -1) {
             o.niceList.associationsIcon.push(o.associations[k]);
           } else {
             o.niceList.associations.push(o.associations[k]);
           }
-        })
+        });
 
         let options = { year: "numeric", month: "long", day: "numeric" };
-    
-        if(o.niceList.datePropertiesScriptname) {
+
+        if (o.niceList.datePropertiesScriptname) {
           let lDate = new Date(o.niceList.date);
           o.niceList.lDate = lDate.toLocaleDateString(undefined, options);
         }
-
 
         var div = document.createElement("div");
         div.innerHTML = o.displayName;
@@ -445,17 +462,15 @@
             };
 
             $scope.color = color;
-            $scope.addAsFavourite = function (item,ots) {
+            $scope.addAsFavourite = function (item, ots) {
               item.doc._niceList.setAsFav = true;
               cwAPI.customLibs.utils.addObjectAsFavorite(ots, item.doc._id);
             };
 
-            $scope.removeAsFavourite = function (item,ots) {
+            $scope.removeAsFavourite = function (item, ots) {
               item.doc._niceList.setAsFav = false;
               cwAPI.customLibs.utils.removeObjectAsFavorite(ots, item.doc._id);
             };
-
-
 
             // set option & scope from configuration
             $scope.setOptionsFromConfiguration();
