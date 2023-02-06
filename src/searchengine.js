@@ -163,6 +163,75 @@
     this.reloadData(data);
   };
 
+  engine.prototype.removeHTMLGarbage = function (a) {
+    a = a.replace("&agrave;", "à");
+    a = a.replace("&Agrave;", "À");
+    a = a.replace("&aacute;", "á");
+    a = a.replace("&Aacute;", "Á");
+    a = a.replace("&acirc;", "â");
+    a = a.replace("&Acirc;", "Â");
+    a = a.replace("&atilde;", "ã");
+    a = a.replace("&Atilde;", "Ã");
+    a = a.replace("&auml;", "ä");
+    a = a.replace("&Auml;", "Ä");
+    a = a.replace("&aring;", "å");
+    a = a.replace("&Aring;", "Å");
+    a = a.replace("&aelig;", "æ");
+    a = a.replace("&AElig;", "Æ");
+    a = a.replace("&egrave;", "è");
+    a = a.replace("&Egrave;", "È");
+    a = a.replace("&eacute;", "é");
+    a = a.replace("&Eacute;", "É");
+    a = a.replace("&ecirc;", "ê");
+    a = a.replace("&Ecirc;", "Ê");
+    a = a.replace("&euml;", "ë");
+    a = a.replace("&Euml;", "Ë");
+    a = a.replace("&igrave;", "ì");
+    a = a.replace("&Igrave;", "Ì");
+    a = a.replace("&iacute;", "í");
+    a = a.replace("&Iacute;", "Í");
+    a = a.replace("&icirc;", "î");
+    a = a.replace("&Icirc;", "Î");
+    a = a.replace("&iuml;", "ï");
+    a = a.replace("&Iuml;", "Ï");
+    a = a.replace("&ograve;", "ò");
+    a = a.replace("&Ograve;", "Ò");
+    a = a.replace("&oacute;", "ó");
+    a = a.replace("&Oacute;", "Ó");
+    a = a.replace("&ocirc;", "ô");
+    a = a.replace("&Ocirc;", "Ô");
+    a = a.replace("&otilde;", "õ");
+    a = a.replace("&Otilde;", "Õ");
+    a = a.replace("&ouml;", "ö");
+    a = a.replace("&Ouml;", "Ö");
+    a = a.replace("&oslash;", "ø");
+    a = a.replace("&Oslash;", "Ø");
+    a = a.replace("&ugrave;", "ù");
+    a = a.replace("&Ugrave;", "Ù");
+    a = a.replace("&uacute;", "ú");
+    a = a.replace("&Uacute;", "Ú");
+    a = a.replace("&ucirc;", "û");
+    a = a.replace("&Ucirc;", "Û");
+    a = a.replace("&uuml;", "ü");
+    a = a.replace("&Uuml;", "Ü");
+    a = a.replace("&ntilde;", "ñ");
+    a = a.replace("&Ntilde;", "Ñ");
+    a = a.replace("&ccedil;", "ç");
+    a = a.replace("&Ccedil;", "Ç");
+    a = a.replace("&yacute;", "ý");
+    a = a.replace("&Yacute;", "Ý");
+    a = a.replace("&szlig;", "ß");
+    a = a.replace("&laquo;", "«");
+    a = a.replace("&raquo;", "»");
+    a = a.replace("&amp;", "&");
+    a = a.replace("&lt;", "<");
+    a = a.replace("&gt;", "<");
+    a = a.replace("&quot;", '"');
+    a = a.replace("&para;", "§");
+    a = a.replace("&copy;", "©");
+    return a;
+  };
+
   engine.prototype.createDocument = function (properties, o) {
     var i,
       val,
@@ -171,7 +240,7 @@
         _nodeID: o.nodeID,
         _displayName: o.displayName,
         _sort: o.sort,
-        _niceList : o.niceList
+        _niceList: o.niceList,
       };
     for (i = 0; i < properties.length; i += 1) {
       val =
@@ -184,6 +253,7 @@
               o,
               "properties"
             );
+      val = this.removeHTMLGarbage(val);
       doc[properties[i].scriptName] = this.customSearchOption ? val : removeDiacritics(val);
     }
     return doc;
